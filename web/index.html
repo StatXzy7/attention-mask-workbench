@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>本地稀疏注意力掩码工作台</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>本地稀疏注意力掩码工作台</h1>
+    <p class="sub">特征映射 φ(x) = max(x,0) + 1 · 以查询与连续键区间均值的点积估计分数 · 仅在保留位置上执行稳定缩放点积注意力</p>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <h2>参数</h2>
+      <label>区间数 <input id="numBlocks" type="number" min="1" step="1" /></label>
+      <label>选择预算（区间数）<input id="budget" type="number" min="0" step="1" /></label>
+      <label class="check"><input id="causal" type="checkbox" /> 因果模式（不读未来键）</label>
+      <label class="check"><input id="sharedBudget" type="checkbox" /> 跨头共享同一查询预算</label>
+      <div id="errorBox" class="error" hidden></div>
+      <div id="statusBox" class="status"></div>
+    </section>
+
+    <section class="panel metrics">
+      <h2>结果指标</h2>
+      <div id="metricsView"></div>
+    </section>
+
+    <section class="panel editor">
+      <h2>手工编辑 Q / K / V（三维 JSON，Q、K 请使用非负数）</h2>
+      <div class="editors">
+        <div><h3>Q</h3><textarea id="editQ"></textarea></div>
+        <div><h3>K</h3><textarea id="editK"></textarea></div>
+        <div><h3>V</h3><textarea id="editV"></textarea></div>
+      </div>
+      <button id="applyEdits" type="button">应用编辑</button>
+      <button id="resetData" type="button">恢复内置数据</button>
+    </section>
+
+    <section class="panel viz">
+      <h2>SVG 同步视图</h2>
+      <div id="svgView"></div>
+    </section>
+
+    <section class="panel outputs">
+      <h2>稀疏输出 vs 稠密参考</h2>
+      <div id="outputView"></div>
+    </section>
+  </main>
+
+  <script src="/src/store.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
