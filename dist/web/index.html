@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>本地稀疏注意力掩码工作台</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>本地稀疏注意力掩码工作台</h1>
+      <div class="feature-map">特征映射 φ(x) = <code>max(x, 0) + 1</code>（非负，应用于 Q 与 K）</div>
+    </header>
+
+    <div id="error-banner" class="error-banner hidden"></div>
+
+    <section class="controls" id="controls">
+      <label>区间数 <em>B</em>
+        <input id="in-intervals" type="number" min="1" step="1" />
+      </label>
+      <label>选择预算
+        <input id="in-budget" type="number" min="0" step="1" />
+      </label>
+      <label class="check"><input id="in-causal" type="checkbox" /> 因果模式（不读未来键）</label>
+      <label class="check"><input id="in-shared" type="checkbox" /> 跨头共享预算（同一查询）</label>
+      <div class="query-select">
+        查询位置
+        <span id="query-buttons"></span>
+      </div>
+      <button id="btn-reset" type="button">重置为内置数据</button>
+    </section>
+
+    <section class="metrics" id="metrics"></section>
+
+    <main class="layout">
+      <section class="editors" id="editors"></section>
+      <section class="panels">
+        <div class="panel">
+          <h2>① 估计分数（φ(q) · 区间 φ(k) 均值，按区间和归一化）</h2>
+          <div id="svg-scores"></div>
+        </div>
+        <div class="panel">
+          <h2>② 实际掩码（区间选满后映射回原始位置，已去重）</h2>
+          <div id="svg-mask"></div>
+        </div>
+        <div class="panel">
+          <h2>③ 稠密权重（稳定 softmax；格内为权重值，括号为稀疏）</h2>
+          <div id="svg-weights"></div>
+        </div>
+        <div class="panel">
+          <h2>输出对照（真实稀疏输出 vs 稠密参考）</h2>
+          <div id="output-table"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      稳定缩放点积注意力：logits / √d_k 减最大值后 softmax；稀疏注意力仅在保留位置上重新归一化。
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

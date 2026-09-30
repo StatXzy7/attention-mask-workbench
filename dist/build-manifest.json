@@ -1,0 +1,20 @@
+{
+  "name": "attention-mask-workbench",
+  "builtAt": "2026-09-30T18:54:04.637Z",
+  "node": "v22.23.3",
+  "files": [
+    "scripts/build.js",
+    "server.js",
+    "src/core.js",
+    "src/data.js",
+    "src/http-app.js",
+    "src/store.js",
+    "tests/core.test.js",
+    "tests/server.test.js",
+    "tests/store.test.js",
+    "tests/web-render.test.js",
+    "web/app.js",
+    "web/render.js"
+  ],
+  "thirdPartyDependencies": 0
+}
